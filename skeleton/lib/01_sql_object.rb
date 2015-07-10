@@ -35,16 +35,17 @@ class SQLObject
   end
 
   def self.all
-    DBConnection.execute(<<-SQL)
+    all_hashes = DBConnection.execute(<<-SQL)
     SELECT
       *
     FROM
       #{table_name}
     SQL
+    parse_all(all_hashes)
   end
 
   def self.parse_all(results)
-    # ...
+    results.map { |obj| self.new(obj)}
   end
 
   def self.find(id)
@@ -54,7 +55,6 @@ class SQLObject
   def initialize(params = {})
     params.each do |k, v|
       if self.class.columns.include?(k.to_sym)
-        # byebug
         self.send("#{k}=", v)
       else
         raise "unknown attribute '#{k}'"
