@@ -47,7 +47,9 @@ class SQLObject
   end
 
   def initialize(params = {})
-    # ...
+    params.each do |k, v|
+      columns.include?(k.to_sym)
+    end
   end
 
   def attributes
