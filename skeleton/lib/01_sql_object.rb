@@ -35,7 +35,12 @@ class SQLObject
   end
 
   def self.all
-    # ...
+    DBConnection.execute(<<-SQL)
+    SELECT
+      *
+    FROM
+      #{table_name}
+    SQL
   end
 
   def self.parse_all(results)
@@ -48,7 +53,12 @@ class SQLObject
 
   def initialize(params = {})
     params.each do |k, v|
-      columns.include?(k.to_sym)
+      if self.class.columns.include?(k.to_sym)
+        # byebug
+        self.send("#{k}=", v)
+      else
+        raise "unknown attribute '#{k}'"
+      end
     end
   end
 
