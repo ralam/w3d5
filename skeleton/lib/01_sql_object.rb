@@ -106,6 +106,10 @@ class SQLObject
   end
 
   def save
-    byebug
+    if self.id.nil?
+      self.insert
+    else
+      self.update
+    end
   end
 end
