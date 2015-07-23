@@ -17,6 +17,7 @@ class AssocOptions
   def table_name
     model_class.table_name
   end
+
 end
 
 class BelongsToOptions < AssocOptions
@@ -58,7 +59,8 @@ module Associatable
   end
 
   def assoc_options
-    # Wait to implement this in Phase IVa. Modify `belongs_to`, too.
+    @assoc_options = {}
+    @assoc_options
   end
 end
 
