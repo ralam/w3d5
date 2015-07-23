@@ -44,16 +44,16 @@ module Associatable
       id = self.send(options.foreign_key)
       mclass = options.model_class
       target = mclass.where(id: id).first
+
     end
   end
 
   def has_many(name, options = {})
-    options = HasManyOptions.new(name, options)
+    options = HasManyOptions.new(name, self.name, options)
     define_method(name) do
       id = self.send(options.primary_key)
       mclass = options.model_class
-      target = mclass.where(id: id)
-      byebug
+      target = mclass.where({options.foreign_key => id})
     end
   end
 
